@@ -63,7 +63,7 @@ class AlsaSink:
                 pcm.setchannels(CHANNELS)
                 pcm.setrate(RATE)
                 pcm.setperiodsize(PERIODSIZE)
-                pcm.setformat(alsa.PCM_FORMAT_S16_LE)
+                pcm.setformat(alsa.PCM_FORMAT_S24_LE)
 
                 self._device = pcm
                 print "AlsaSink: device acquired"
@@ -111,7 +111,7 @@ except alsa.ALSAAudioError:
     print "Device has no native mute"
 
 #Gets mimimum volume Db for the mixer
-volume_range = (mixer.getrange()[1]-mixer.getrange()[0]) / 100
+volume_range = (mixer.getrange()[1]-mixer.getrange()[0])
 selected_volume_range = int(args.dbrange)
 if selected_volume_range > volume_range or selected_volume_range == 0:
     selected_volume_range = volume_range
