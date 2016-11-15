@@ -69,6 +69,14 @@ def index():
 ##API routes
 
 #Playback routes
+@app.route('/api/playback/playpause')
+def playback_playpause():
+    if bool(lib.SpPlaybackIsPlaying()):
+        lib.SpPlaybackPause()
+    else:
+        lib.SpPlaybackPlay()
+    return '', 204
+
 @app.route('/api/playback/play')
 def playback_play():
     lib.SpPlaybackPlay()
@@ -91,6 +99,14 @@ def playback_next():
 
 
 #TODO: Add ability to disable shuffle/repeat
+@app.route('/api/playback/shuffletoggle')
+def playback_shuffletoggle():
+    if bool(lib.SpPlaybackIsShuffled()):
+        lib.SpPlaybackEnableShuffle(False)
+    else:
+        lib.SpPlaybackEnableShuffle(True)
+    return '', 204
+
 @app.route('/api/playback/shuffle')
 def playback_shuffle():
     lib.SpPlaybackEnableShuffle(True)
@@ -105,6 +121,14 @@ def playback_shuffle(status):
     return '', 204
 
 
+@app.route('/api/playback/repeattoggle')
+def playback_repeattoggle():
+    if bool(lib.SpPlaybackIsRepeated()):
+        lib.SpPlaybackEnableRepeat(False)
+    else:
+        lib.SpPlaybackEnableRepeat(True)
+    return '', 204
+
 @app.route('/api/playback/repeat')
 def playback_repeat():
     lib.SpPlaybackEnableRepeat(True)
@@ -116,6 +140,16 @@ def playback_repeat(status):
         lib.SpPlaybackEnableRepeat(True)
     elif status == 'disable':
         lib.SpPlaybackEnableRepeat(False)
+    return '', 204
+
+@app.route('/api/playback/volumeup')
+def playback_volumeup():
+    lib.SpPlaybackUpdateVolume(lib.SpPlaybackGetVolume() + 15)
+    return '', 204
+
+@app.route('/api/playback/volumedown')
+def playback_volumedown():
+    lib.SpPlaybackUpdateVolume(lib.SpPlaybackGetVolume() - 15)
     return '', 204
 
 
