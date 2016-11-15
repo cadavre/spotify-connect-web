@@ -144,12 +144,12 @@ def playback_repeat(status):
 
 @app.route('/api/playback/volumeup')
 def playback_volumeup():
-    lib.SpPlaybackUpdateVolume(lib.SpPlaybackGetVolume() + 15)
+    lib.SpPlaybackUpdateVolume(lib.SpPlaybackGetVolume() + 2000)
     return '', 204
 
 @app.route('/api/playback/volumedown')
 def playback_volumedown():
-    lib.SpPlaybackUpdateVolume(lib.SpPlaybackGetVolume() - 15)
+    lib.SpPlaybackUpdateVolume(lib.SpPlaybackGetVolume() - 2000)
     return '', 204
 
 
