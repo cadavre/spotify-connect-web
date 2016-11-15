@@ -69,6 +69,14 @@ def index():
 ##API routes
 
 #Playback routes
+@app.route('/api/playback/playpause')
+def playback_playpause():
+    if bool(lib.SpPlaybackIsPlaying()):
+        lib.SpPlaybackPause()
+    else:
+        lib.SpPlaybackPlay()
+    return '', 204
+
 @app.route('/api/playback/play')
 def playback_play():
     lib.SpPlaybackPlay()
@@ -89,16 +97,61 @@ def playback_next():
     lib.SpPlaybackSkipToNext()
     return '', 204
 
+
 #TODO: Add ability to disable shuffle/repeat
+@app.route('/api/playback/shuffletoggle')
+def playback_shuffletoggle():
+    if bool(lib.SpPlaybackIsShuffled()):
+        lib.SpPlaybackEnableShuffle(False)
+    else:
+        lib.SpPlaybackEnableShuffle(True)
+    return '', 204
+
 @app.route('/api/playback/shuffle')
 def playback_shuffle():
-    lib.SpPlaybackEnableShuffle()
+    lib.SpPlaybackEnableShuffle(True)
+    return '', 204
+
+@app.route('/api/playback/shuffle/<status>', endpoint='shuffle_toggle')
+def playback_shuffle(status):
+    if status == 'enable':
+        lib.SpPlaybackEnableShuffle(True)
+    elif status == 'disable':
+        lib.SpPlaybackEnableShuffle(False)
+    return '', 204
+
+
+@app.route('/api/playback/repeattoggle')
+def playback_repeattoggle():
+    if bool(lib.SpPlaybackIsRepeated()):
+        lib.SpPlaybackEnableRepeat(False)
+    else:
+        lib.SpPlaybackEnableRepeat(True)
     return '', 204
 
 @app.route('/api/playback/repeat')
 def playback_repeat():
-    lib.SpPlaybackEnableRepeat()
+    lib.SpPlaybackEnableRepeat(True)
     return '', 204
+
+@app.route('/api/playback/repeat/<status>', endpoint='repeat_toggle')
+def playback_repeat(status):
+    if status == 'enable':
+        lib.SpPlaybackEnableRepeat(True)
+    elif status == 'disable':
+        lib.SpPlaybackEnableRepeat(False)
+    return '', 204
+
+@app.route('/api/playback/volumeup')
+def playback_volumeup():
+    lib.SpPlaybackUpdateVolume(lib.SpPlaybackGetVolume() + 15)
+    return '', 204
+
+@app.route('/api/playback/volumedown')
+def playback_volumedown():
+    lib.SpPlaybackUpdateVolume(lib.SpPlaybackGetVolume() - 15)
+    return '', 204
+
 
 @app.route('/api/playback/volume', methods=['GET'])
 def playback_volume():
@@ -115,6 +168,7 @@ def playback_volume():
         }), 400
     lib.SpPlaybackUpdateVolume(int(volume))
     return '', 204
+
 
 #Info routes
 @app.route('/api/info/metadata')
