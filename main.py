@@ -166,6 +166,10 @@ def playback_volume():
         return jsonify({
             'error': 'value must be set'
         }), 400
+    if volume < 0:
+        volume = 0
+    elif volume > 65535:
+        volume = 65535
     lib.SpPlaybackUpdateVolume(int(volume))
     return '', 204
 
