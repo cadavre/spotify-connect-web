@@ -142,14 +142,14 @@ def playback_repeat(status):
         lib.SpPlaybackEnableRepeat(False)
     return '', 204
 
-@app.route('/api/playback/volumeup')
-def playback_volumeup():
-    lib.SpPlaybackUpdateVolume(lib.SpPlaybackGetVolume() + 2000)
+@app.route('/api/playback/volumeup/<int:vol>')
+def playback_volumeup(vol):
+    lib.SpPlaybackUpdateVolume(lib.SpPlaybackGetVolume() + vol)
     return '', 204
 
-@app.route('/api/playback/volumedown')
-def playback_volumedown():
-    lib.SpPlaybackUpdateVolume(lib.SpPlaybackGetVolume() - 2000)
+@app.route('/api/playback/volumedown/<int:vol>')
+def playback_volumedown(vol):
+    lib.SpPlaybackUpdateVolume(lib.SpPlaybackGetVolume() - vol)
     return '', 204
 
 
