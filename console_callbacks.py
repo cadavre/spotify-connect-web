@@ -8,10 +8,10 @@ import threading
 from connect_ffi import ffi, lib
 from lastfm import lastfm
 
-
+FORMAT = alsa.PCM_FORMAT_S16_LE
 RATE = 44100
 CHANNELS = 2
-PERIODSIZE = int(44100 / 4) # 0.25s
+PERIODSIZE = int(RATE / 4) # 0.25s
 SAMPLESIZE = 2 # 16 bit integer
 MAXPERIODS = int(0.5 * RATE / PERIODSIZE) # 0.5s Buffer
 
@@ -64,7 +64,7 @@ class AlsaSink:
                 pcm.setchannels(CHANNELS)
                 pcm.setrate(RATE)
                 pcm.setperiodsize(PERIODSIZE)
-                pcm.setformat(alsa.PCM_FORMAT_S24_LE)
+                pcm.setformat(FORMAT)
 
                 self._device = pcm
                 print "AlsaSink: device acquired"
